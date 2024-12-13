@@ -7,7 +7,7 @@ import (
 	"context"
 	"embed"
 	"errors"
-	"example/graph/model"
+	"example/graph/models"
 	"fmt"
 	"strconv"
 	"sync"
@@ -57,7 +57,7 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateMeetup func(childComplexity int, input model.NewMeetup) int
+		CreateMeetup func(childComplexity int, input models.NewMeetup) int
 	}
 
 	Query struct {
@@ -74,17 +74,17 @@ type ComplexityRoot struct {
 }
 
 type MeetupResolver interface {
-	User(ctx context.Context, obj *model.Meetup) (*model.User, error)
+	User(ctx context.Context, obj *models.Meetup) (*models.User, error)
 }
 type MutationResolver interface {
-	CreateMeetup(ctx context.Context, input model.NewMeetup) (*model.Meetup, error)
+	CreateMeetup(ctx context.Context, input models.NewMeetup) (*models.Meetup, error)
 }
 type QueryResolver interface {
-	Meetups(ctx context.Context) ([]*model.Meetup, error)
-	Users(ctx context.Context) ([]*model.User, error)
+	Meetups(ctx context.Context) ([]*models.Meetup, error)
+	Users(ctx context.Context) ([]*models.User, error)
 }
 type UserResolver interface {
-	Meetups(ctx context.Context, obj *model.User) ([]*model.Meetup, error)
+	Meetups(ctx context.Context, obj *models.User) ([]*models.Meetup, error)
 }
 
 type executableSchema struct {
@@ -144,7 +144,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateMeetup(childComplexity, args["input"].(model.NewMeetup)), true
+		return e.complexity.Mutation.CreateMeetup(childComplexity, args["input"].(models.NewMeetup)), true
 
 	case "Query.meetups":
 		if e.complexity.Query.Meetups == nil {
@@ -326,13 +326,13 @@ func (ec *executionContext) field_Mutation_createMeetup_args(ctx context.Context
 func (ec *executionContext) field_Mutation_createMeetup_argsInput(
 	ctx context.Context,
 	rawArgs map[string]interface{},
-) (model.NewMeetup, error) {
+) (models.NewMeetup, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
 		return ec.unmarshalNNewMeetup2exampleᚋgraphᚋmodelᚐNewMeetup(ctx, tmp)
 	}
 
-	var zeroVal model.NewMeetup
+	var zeroVal models.NewMeetup
 	return zeroVal, nil
 }
 
@@ -413,7 +413,7 @@ func (ec *executionContext) field___Type_fields_argsIncludeDeprecated(
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Meetup_id(ctx context.Context, field graphql.CollectedField, obj *model.Meetup) (ret graphql.Marshaler) {
+func (ec *executionContext) _Meetup_id(ctx context.Context, field graphql.CollectedField, obj *models.Meetup) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Meetup_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -457,7 +457,7 @@ func (ec *executionContext) fieldContext_Meetup_id(_ context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Meetup_name(ctx context.Context, field graphql.CollectedField, obj *model.Meetup) (ret graphql.Marshaler) {
+func (ec *executionContext) _Meetup_name(ctx context.Context, field graphql.CollectedField, obj *models.Meetup) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Meetup_name(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -501,7 +501,7 @@ func (ec *executionContext) fieldContext_Meetup_name(_ context.Context, field gr
 	return fc, nil
 }
 
-func (ec *executionContext) _Meetup_description(ctx context.Context, field graphql.CollectedField, obj *model.Meetup) (ret graphql.Marshaler) {
+func (ec *executionContext) _Meetup_description(ctx context.Context, field graphql.CollectedField, obj *models.Meetup) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Meetup_description(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -545,7 +545,7 @@ func (ec *executionContext) fieldContext_Meetup_description(_ context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _Meetup_user(ctx context.Context, field graphql.CollectedField, obj *model.Meetup) (ret graphql.Marshaler) {
+func (ec *executionContext) _Meetup_user(ctx context.Context, field graphql.CollectedField, obj *models.Meetup) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Meetup_user(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -571,7 +571,7 @@ func (ec *executionContext) _Meetup_user(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.(*models.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚖexampleᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
@@ -613,7 +613,7 @@ func (ec *executionContext) _Mutation_createMeetup(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateMeetup(rctx, fc.Args["input"].(model.NewMeetup))
+		return ec.resolvers.Mutation().CreateMeetup(rctx, fc.Args["input"].(models.NewMeetup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -625,7 +625,7 @@ func (ec *executionContext) _Mutation_createMeetup(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Meetup)
+	res := resTmp.(*models.Meetup)
 	fc.Result = res
 	return ec.marshalNMeetup2ᚖexampleᚋgraphᚋmodelᚐMeetup(ctx, field.Selections, res)
 }
@@ -690,7 +690,7 @@ func (ec *executionContext) _Query_meetups(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Meetup)
+	res := resTmp.([]*models.Meetup)
 	fc.Result = res
 	return ec.marshalNMeetup2ᚕᚖexampleᚋgraphᚋmodelᚐMeetupᚄ(ctx, field.Selections, res)
 }
@@ -744,7 +744,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.User)
+	res := resTmp.([]*models.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚕᚖexampleᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
@@ -901,7 +901,7 @@ func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -945,7 +945,7 @@ func (ec *executionContext) fieldContext_User_id(_ context.Context, field graphq
 	return fc, nil
 }
 
-func (ec *executionContext) _User_username(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_username(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_username(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -989,7 +989,7 @@ func (ec *executionContext) fieldContext_User_username(_ context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_email(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1033,7 +1033,7 @@ func (ec *executionContext) fieldContext_User_email(_ context.Context, field gra
 	return fc, nil
 }
 
-func (ec *executionContext) _User_meetups(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_meetups(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_meetups(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1059,7 +1059,7 @@ func (ec *executionContext) _User_meetups(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Meetup)
+	res := resTmp.([]*models.Meetup)
 	fc.Result = res
 	return ec.marshalNMeetup2ᚕᚖexampleᚋgraphᚋmodelᚐMeetupᚄ(ctx, field.Selections, res)
 }
@@ -2860,8 +2860,8 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputNewMeetup(ctx context.Context, obj interface{}) (model.NewMeetup, error) {
-	var it model.NewMeetup
+func (ec *executionContext) unmarshalInputNewMeetup(ctx context.Context, obj interface{}) (models.NewMeetup, error) {
+	var it models.NewMeetup
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -2904,7 +2904,7 @@ func (ec *executionContext) unmarshalInputNewMeetup(ctx context.Context, obj int
 
 var meetupImplementors = []string{"Meetup"}
 
-func (ec *executionContext) _Meetup(ctx context.Context, sel ast.SelectionSet, obj *model.Meetup) graphql.Marshaler {
+func (ec *executionContext) _Meetup(ctx context.Context, sel ast.SelectionSet, obj *models.Meetup) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, meetupImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -3132,7 +3132,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 
 var userImplementors = []string{"User"}
 
-func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model.User) graphql.Marshaler {
+func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *models.User) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, userImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -3571,11 +3571,11 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) marshalNMeetup2exampleᚋgraphᚋmodelᚐMeetup(ctx context.Context, sel ast.SelectionSet, v model.Meetup) graphql.Marshaler {
+func (ec *executionContext) marshalNMeetup2exampleᚋgraphᚋmodelᚐMeetup(ctx context.Context, sel ast.SelectionSet, v models.Meetup) graphql.Marshaler {
 	return ec._Meetup(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMeetup2ᚕᚖexampleᚋgraphᚋmodelᚐMeetupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Meetup) graphql.Marshaler {
+func (ec *executionContext) marshalNMeetup2ᚕᚖexampleᚋgraphᚋmodelᚐMeetupᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.Meetup) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3619,7 +3619,7 @@ func (ec *executionContext) marshalNMeetup2ᚕᚖexampleᚋgraphᚋmodelᚐMeetu
 	return ret
 }
 
-func (ec *executionContext) marshalNMeetup2ᚖexampleᚋgraphᚋmodelᚐMeetup(ctx context.Context, sel ast.SelectionSet, v *model.Meetup) graphql.Marshaler {
+func (ec *executionContext) marshalNMeetup2ᚖexampleᚋgraphᚋmodelᚐMeetup(ctx context.Context, sel ast.SelectionSet, v *models.Meetup) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -3629,7 +3629,7 @@ func (ec *executionContext) marshalNMeetup2ᚖexampleᚋgraphᚋmodelᚐMeetup(c
 	return ec._Meetup(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNNewMeetup2exampleᚋgraphᚋmodelᚐNewMeetup(ctx context.Context, v interface{}) (model.NewMeetup, error) {
+func (ec *executionContext) unmarshalNNewMeetup2exampleᚋgraphᚋmodelᚐNewMeetup(ctx context.Context, v interface{}) (models.NewMeetup, error) {
 	res, err := ec.unmarshalInputNewMeetup(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -3649,11 +3649,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNUser2exampleᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2exampleᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v models.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖexampleᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚕᚖexampleᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*models.User) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3697,7 +3697,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖexampleᚋgraphᚋmodelᚐUserᚄ
 	return ret
 }
 
-func (ec *executionContext) marshalNUser2ᚖexampleᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖexampleᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *models.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
