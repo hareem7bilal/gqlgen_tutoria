@@ -74,7 +74,7 @@ type ComplexityRoot struct {
 }
 
 type MeetupResolver interface {
-	User(ctx context.Context, obj *models.Meetup) (*models.User, error)
+	Meetups(ctx context.Context, obj *models.User) ([]*models.Meetup, error)
 }
 type MutationResolver interface {
 	CreateMeetup(ctx context.Context, input models.NewMeetup) (*models.Meetup, error)
@@ -84,7 +84,7 @@ type QueryResolver interface {
 	Users(ctx context.Context) ([]*models.User, error)
 }
 type UserResolver interface {
-	Meetups(ctx context.Context, obj *models.User) ([]*models.Meetup, error)
+	User(ctx context.Context, obj *models.Meetup) (*models.User, error)
 }
 
 type executableSchema struct {
@@ -559,7 +559,7 @@ func (ec *executionContext) _Meetup_user(ctx context.Context, field graphql.Coll
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Meetup().User(rctx, obj)
+		return ec.resolvers.User().User(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1047,7 +1047,7 @@ func (ec *executionContext) _User_meetups(ctx context.Context, field graphql.Col
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.User().Meetups(rctx, obj)
+		return ec.resolvers.Meetup().Meetups(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
